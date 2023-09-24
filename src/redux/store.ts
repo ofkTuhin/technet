@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { api } from './api/apiSlice';
 import cartRducer from './features/cart/cartSlice';
 import productReducer from './features/product/productSlice';
+import userReducer from './features/user/userSlice';
 // ...
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     cart: cartRducer,
     product: productReducer,
     [api.reducerPath]: api.reducer,
+    user:userReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),

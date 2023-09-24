@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import * as React from 'react';
 
@@ -7,6 +8,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { loginUser } from '@/redux/features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { is } from 'date-fns/locale';
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -21,11 +26,17 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
-
+const dispatch=useAppDispatch()
+const {user,isLoading}=useAppSelector(state=>state.user)
+const nevigate=useNavigate()
   const onSubmit = (data: LoginFormInputs) => {
-    console.log(data);
+    dispatch(loginUser({email:data.email,password:data.password}))
   };
-
+React.useEffect(()=>{
+  if (user.email&&!isLoading) {
+    nevigate("/")
+  }
+},[user.email, !isLoading])
   return (
     <div className={cn('grid gap-6', className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>

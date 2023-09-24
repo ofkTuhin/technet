@@ -1,9 +1,9 @@
-import { useGetCommentQuery, usePostCommetMutation } from '@/redux/api/apiSlice';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { FiSend } from 'react-icons/fi';
 import { useState } from 'react';
+import { useGetCommentQuery, usePostCommetMutation } from '@/redux/features/product/productApi';
 
 const dummyComments = [
   'Bhalo na',
@@ -21,8 +21,8 @@ export default function ProductReview({id}:{id:string}) {
       data:inputValue
     })
   }
-  const {data}=useGetCommentQuery(id)
- 
+  const {data}=useGetCommentQuery(id,{refetchOnMountOrArgChange:true,pollingInterval:300000})
+ console.log(data)
   return (
     <div className="max-w-7xl mx-auto mt-5">
       <div className="flex gap-5 items-center">
